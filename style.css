@@ -1,3 +1,10 @@
+body {
+	background-image:url("kiwi.png");
+	background-repeat:no-repeat;
+	background-size: 150px;
+	background-position: 100px 250px;
+}
+
 #header {
 	position: relative;
 	float: top;
