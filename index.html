@@ -1,24 +1,59 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link href="style.css" rel="stylesheet" type="text/css">
     <script src="jquery.js"></script>
     <script src="data_generator.js"></script>
+    <title>Twittler</title>
   </head>
   <body>
+    <div id="header">
+      <h1 id="heading">Twittler</h1>
+    </div>
+
+    <div class="feed">
+      <a href="#0" id="refreshButton">Refresh</a>
+      <p></p>
+      <div id="tweets"></div>
+    </div>
+
     <script>
 
       $(document).ready(function(){
-        var $body = $('body');
-        $body.html('');
-
+        var $feed = $('.feed #tweets');
         var index = streams.home.length - 1;
+        var numTweets = streams.home.length;
+
+        //Load initial tweets
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div></div>');
+          var $tweet = $('<div id="tweet"></div>');
           $tweet.text('@' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($body);
+          $tweet.appendTo($feed);
           index -= 1;
         }
+
+        //Refresh new tweets
+        var refresh = function(){
+          var newTweets = streams.home.length - numTweets;
+          for (var i = 0; i < newTweets; i++){
+            var tweet = streams.home[numTweets + i];
+            var $tweet = $('<div id="tweet"></div>');
+            $tweet.text('@' + tweet.user + ': ' + tweet.message);
+            $tweet.prependTo($feed);
+          }
+          numTweets += newTweets;
+        }
+
+        $("#refreshButton").on("mouseenter", function() {
+          $(this).addClass("hover");
+        })
+
+        $("#refreshButton").on("mouseleave", function() {
+          $(this).removeClass("hover");
+        })
+
+        $("#refreshButton").on("click", refresh);
 
       });
 
