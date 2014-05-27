@@ -27,9 +27,15 @@
         //Load initial tweets
         while(index >= 0){
           var tweet = streams.home[index];
-          var $tweet = $('<div id="tweet"></div>');
-          $tweet.text(tweet.created_at + ' @' + tweet.user + ': ' + tweet.message);
-          $tweet.appendTo($feed);
+          var $tweet = $('<div class="tweet"></div>');
+          var $tweetUser = $('<div class="tweetUser"></div>');
+          var $tweetMessage = $('<div class="tweetMessage"></div>');
+          var $tweetTime = $('<div class="tweetTime"></div>');
+          $tweetUser.text('@' + tweet.user);
+          $tweetMessage.text(tweet.message);
+          $tweetTime.text(tweet.created_at);
+          $tweet.append($tweetUser, $tweetMessage, $tweetTime);
+          $tweet.prependTo($feed);
           index -= 1;
         }
 
@@ -39,7 +45,13 @@
           for (var i = 0; i < newTweets; i++){
             var tweet = streams.home[numTweets + i];
             var $tweet = $('<div id="tweet"></div>');
-            $tweet.text(tweet.created_at + ' @' + tweet.user + ': ' + tweet.message);
+            var $tweetUser = $('<div class="tweetUser"></div>');
+            var $tweetMessage = $('<div class="tweetMessage"></div>');
+            var $tweetTime = $('<div class="tweetTime"></div>');
+            $tweetUser.text('@' + tweet.user);
+            $tweetMessage.text(tweet.message);
+            $tweetTime.text(tweet.created_at);
+            $tweet.append($tweetUser, $tweetMessage, $tweetTime);
             $tweet.prependTo($feed);
           }
           numTweets += newTweets;
@@ -60,3 +72,5 @@
     </script>
   </body>
 </html>
+
+
