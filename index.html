@@ -23,6 +23,7 @@
         var $feed = $('.feed #tweets');
         var index = streams.home.length - 1;
         var numTweets = streams.home.length;
+        var user;
 
         //Load initial tweets
         while(index >= 0){
@@ -57,6 +58,28 @@
           numTweets += newTweets;
         }
 
+        //Feed of specific user's tweets
+        var userTweets = function(user) {
+          $(".tweet").remove();
+          var $feed = $('.feed #tweets');
+          var numTweetles = streams.users[user].length;
+          var index = numTweetles;
+
+          while(index > 0){
+            var tweet = streams.users[user][index - 1];
+            var $tweet = $('<div class="tweet"></div>');
+            var $tweetuser = $('<p class="tweetuser"></p>');
+            var $tweetmessage = $('<p class="tweetmessage"></p>');
+            var $tweettime = $('<p class="tweettime"></p>');
+            $tweetuser.text('@' + tweet.user);
+            $tweetmessage.text(tweet.message);
+            $tweettime.text(tweet.created_at);
+            $tweet.append($tweetuser, $tweetmessage, $tweettime);
+            $feed.append($tweet);
+            index -= 1;
+          }
+        }
+
         $("#refreshButton").on("mouseenter", function() {
           $(this).addClass("hover");
         })
@@ -66,6 +89,20 @@
         })
 
         $("#refreshButton").on("click", refresh);
+
+
+        $(".tweetUser").on("mouseenter", function() {
+          $(this).addClass("hover");
+        })
+
+        $(".tweetUser").on("mouseleave", function() {
+          $(this).removeClass("hover");
+        })
+
+        $(".tweetUser").on("click", function() {
+          user = $(this).text().split('@')[1];
+          userTweets(user);
+        })
 
       });
 
